@@ -1,0 +1,44 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.gglee'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    /*implementation 'org.springframework.boot:spring-boot-starter-security'*/
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    /*testImplementation 'org.springframework.security:spring-security-test'*/
+    /*추가 라이브러리 시작*/
+    // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.0.3'
+    // 시큐리티 태그 라이브러리
+    /*implementation group: 'org.springframework.security', name: 'spring-security-taglibs', version: '5.6.2'*/
+    // JSP 템플릿 엔진
+    implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '10.1.0-M12'
+    // JSTL
+    /*implementation group: 'javax.servlet.jsp.jstl', name: 'jstl', version: '1.2'*/
+    /*추가 라이브러리 종료*/
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
