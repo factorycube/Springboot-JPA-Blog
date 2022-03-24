@@ -4,11 +4,16 @@ import com.gglee.blog.model.RoleType;
 import com.gglee.blog.model.User;
 import com.gglee.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 // html파일이 아니라 data를 리턴해주는 controller = RestController
@@ -17,6 +22,21 @@ public class DummyControllerTest {
 
     @Autowired // 의존성 주입(DI)
     private UserRepository userRepository;
+
+    // http://localhost:8080/blog/dummy/user
+    @GetMapping("/dummy/users")
+    public List<User> list() {
+        return userRepository.findAll();
+    }
+
+    // 한페이지당 2건에 데이터를 리턴받아 볼 예정
+    @GetMapping("/dummy/user")
+    public List<User> pageList(@PageableDefault(size = 2, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<User> pagingUser = userRepository.findAll(pageable);
+
+        List<User> users = pagingUser.getContent();
+        return users;
+    }
 
     // {id} 주소로 라메터를 전달 받을 수 있음.
     // http://localhost:8080/blog/dummy/user/3
